@@ -1,0 +1,51 @@
+﻿@{
+    //   Layout = null;
+    ViewData["Title"] = "I miei post";
+
+ 
+}
+
+@using NetCore_01.Controllers;
+@model List<Post>;       // il modello associato a questa pagina è di tipo List<Post>
+        
+        
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center">
+            <h1 class="mt-3 mb-3">Lista posts</h1>
+        </div>
+        
+        <table class="table post-list-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Immagine</th>
+                    <th>Titolo</th>
+                    <th>Descrizione</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Post post in Model) 
+                {
+                <tr>
+                    <td>@post.Id</td>                   
+                    <td class="image"><img src=@post.Image></td>
+                    <td class="title">@post.Title</td>
+                    <td class="description">@post.Description</td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    
+
+ @section News 
+{
+    <h2>Le ultime notizie di oggi</h2>
+ 
+
+    @Model.Titolo: @Model.Testo
+
+    <br />Autore: @Model.Autore.Nome
+    
+    
+ }

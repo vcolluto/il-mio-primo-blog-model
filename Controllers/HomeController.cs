@@ -57,36 +57,4 @@ namespace NetCore_01.Controllers
         }
     }
 
-    public class Notizia
-    {
-        public string Titolo { get; set; }
-        public string Testo { get; set; }
-
-        public Autore Autore { get; set; }
-
-
-        public Notizia(string titolo, string testo)
-        {
-            Titolo = titolo;
-            Testo = testo;
-        }
-
-    }
-
-
-    public class Autore
-    {
-        public string Nome { get; set; }
-        public string Cognome { get; set; }
-
-
-        public Autore(string nome, string cognome)
-        {
-            Nome = nome;
-            Cognome = cognome;
-        }
-
-    }
-
-
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NetCore_01.Models;
+using System.Diagnostics;
 
 namespace NetCore_01
 {
@@ -9,7 +10,7 @@ namespace NetCore_01
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=Blog;Integrated Security=True;TrustServerCertificate=true");
+            optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=Blog;Integrated Security=True;TrustServerCertificate=true").LogTo(s=>Debug.WriteLine(s));
         }
     }
 }

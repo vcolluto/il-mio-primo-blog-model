@@ -18,12 +18,17 @@ namespace NetCore_01.Controllers
         }
 
       
-        // gestisce /Home/Index     oppure    /Home     oppure /
-        public IActionResult Index()
+   
+
+        public IActionResult Index(string? category)
         {
-            using(PostContext postContext=new PostContext())
+            using (PostContext postContext = new PostContext())
             {
-                List<Post> posts = postContext.posts.ToList<Post>();
+                List<Post> posts;
+                if (category == null)
+                     posts = postContext.posts.ToList<Post>();
+                else
+                    posts = postContext.posts.Where(post => post.Category == category).ToList<Post>();
                 return View(posts);
             }
         }
@@ -35,16 +40,16 @@ namespace NetCore_01.Controllers
             return View();                       // restituisce la Vista /Home/Privacy.cshtml
         }
 
-        // gestisce richieste del tipo /Home/Detail?postId=<id>
-        public IActionResult Detail(int postId)
+        // gestisce richieste del tipo /Home/Detail?Id=<id>
+        public IActionResult Detail(int Id)
         {
             using (PostContext postContext = new PostContext())
             {
 
-                Post post = postContext.posts.First(p => p.Id == postId);
+                Post post = postContext.posts.First(p => p.Id == Id);
                 if (post == null)
                     // return NotFound($"Il post {postId} non esiste!");
-                    return View("NotFound", postId);    //vista NotFound.cshtml
+                    return View("NotFound", Id);    //vista NotFound.cshtml
                 else
                     return View(post);  //vista Detail.cshtml
             }

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using NetCore_01.Models;
 using System.Diagnostics;
+using System.Reflection.Metadata.Ecma335;
 
 namespace NetCore_01.Controllers
 {
@@ -32,6 +33,21 @@ namespace NetCore_01.Controllers
         public IActionResult Privacy()
         {
             return View();                       // restituisce la Vista /Home/Privacy.cshtml
+        }
+
+        // gestisce richieste del tipo /Home/Detail?postId=<id>
+        public IActionResult Detail(int postId)
+        {
+            using (PostContext postContext = new PostContext())
+            {
+
+                Post post = postContext.posts.First(p => p.Id == postId);
+                if (post == null)
+                    // return NotFound($"Il post {postId} non esiste!");
+                    return View("NotFound", postId);    //vista NotFound.cshtml
+                else
+                    return View(post);  //vista Detail.cshtml
+            }
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

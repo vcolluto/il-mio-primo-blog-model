@@ -27,7 +27,9 @@
                 @foreach (Post post in Model) 
                 {
                 <tr>
-                    <td>@post.Id</td>                   
+                    <td>
+                         <a href="@Url.Action("Detail", "Home", new {postId=@post.Id})">@post.Id</a>
+                    </td>
                     <td class="image"><img src=@post.Image></td>
                     <td class="title">@post.Title</td>
                     <td class="description">@post.Description</td>
@@ -38,14 +40,4 @@
     </div>
     
 
- @section News 
-{
-    <h2>Le ultime notizie di oggi</h2>
  
-
-    @Model.Titolo: @Model.Testo
-
-    <br />Autore: @Model.Autore.Nome
-    
-    
- }

@@ -1,0 +1,16 @@
+﻿@model Post;
+
+<div class="col-12">
+    <div class="d-flex align-items-center">
+        <h1>Dettaglio post:</h1>
+    </div>
+    <div>
+        <img src="@Model.Image" />
+    </div>
+    <p>
+        <strong>Titolo:</strong>@Model.Title
+    </p>
+    <p>
+        <strong>Contenuto:</strong>@Model.Description
+    </p>
+</div>

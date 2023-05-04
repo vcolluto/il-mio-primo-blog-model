@@ -7,7 +7,7 @@ using System.Reflection.Metadata.Ecma335;
 namespace NetCore_01.Controllers
 {
 
-    //richieste /Home/*
+    //richieste /Posts/*
     public class PostsController : Controller
     {
         private readonly ILogger<PostsController> _logger;
@@ -17,9 +17,9 @@ namespace NetCore_01.Controllers
             _logger = logger;
         }
 
-      
-   
 
+
+        [HttpGet]
         public IActionResult Index(string? category)
         {
             using (PostContext postContext = new PostContext())
@@ -33,10 +33,11 @@ namespace NetCore_01.Controllers
             }
         }
 
+    
 
-       
 
-        // gestisce richieste del tipo /Home/Detail?Id=<id>
+        [HttpGet]
+        // gestisce richieste del tipo /Posts/Detail?Id=<id>
         public IActionResult Detail(int Id)
         {
             using (PostContext postContext = new PostContext())

@@ -13,8 +13,8 @@ namespace NetCore_01.Models
 
 
         [Required(ErrorMessage ="Il campo descrizione non può essere vuoto")]
-        [StringLength(50)]
-        [Range(20,50, ErrorMessage = "Il campo descrizione deve avere almeno 20 caratteri e non più di 50")]        
+        [StringLength(50,MinimumLength =20,ErrorMessage = "Il campo descrizione deve avere almeno 20 caratteri e non più di 50")]
+      
         public string Description { get; set; } 
         public string? Category { get; set; }
         public string Image { get; set; }

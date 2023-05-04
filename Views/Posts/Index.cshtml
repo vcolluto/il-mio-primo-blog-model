@@ -20,6 +20,7 @@
                         <th>Immagine</th>
                         <th>Titolo</th>
                         <th>Descrizione</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -32,6 +33,7 @@
                         <td class="image"><img src=@post.Image></td>
                         <td class="title">@post.Title</td>
                         <td class="description">@post.Description</td>
+                        <td><a class="btn btn-primary" href="@Url.Action("Edit", "Posts", new {Id=@post.Id})">Modifica</a></td>
                     </tr>
                 }
                 </tbody>

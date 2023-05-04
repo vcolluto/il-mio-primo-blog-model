@@ -6,7 +6,7 @@ namespace NetCore_01.Validations
     {
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
-            if (((string)value)[0].ToString().ToUpper() != (((string)value)[0].ToString()))
+            if (value!=null && (((string)value)[0].ToString().ToUpper() != (((string)value)[0].ToString())))
                 return new ValidationResult("La prima lettera deve essere maiuscola");
             return ValidationResult.Success;
         }

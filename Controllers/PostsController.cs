@@ -84,6 +84,46 @@ namespace NetCore_01.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult Edit(int Id)           //visualizza la vista di inserimento Post
+        {
+            using (PostContext postContext = new PostContext())
+            {
+
+                Post? post = postContext.posts.FirstOrDefault(p => p.Id == Id);
+                if (post == null)
+                    // return NotFound($"Il post {postId} non esiste!");
+                    return View("NotFound", Id);    //vista NotFound.cshtml
+                else
+                    return View(post);  //vista Edit.cshtml
+            }
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Post data)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(data);
+            }
+
+            using (PostContext context = new PostContext())
+            {
+                Post postToEdit = context.posts.First(p => p.Id == data.Id);
+                postToEdit.Title = data.Title;
+                postToEdit.Category = data.Category;
+                postToEdit.Description = data.Description;
+                postToEdit.Image = data.Image;
+
+                context.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+        }
+
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

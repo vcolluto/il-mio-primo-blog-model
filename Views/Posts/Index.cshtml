@@ -25,14 +25,14 @@
                 <tbody>
                 @foreach (Post post in Model)
                 {
-                        <tr>
-                            <td>
-                                <a href="@Url.Action("Detail", "Posts", new {Id=@post.Id})">@post.Id</a>
-                            </td>
-                            <td class="image"><img src=@post.Image></td>
-                            <td class="title">@post.Title</td>
-                            <td class="description">@post.Description</td>
-                        </tr>
+                    <tr>
+                        <td>
+                            <a href="@Url.Action("Detail", "Posts", new {Id=@post.Id})">@post.Id</a>
+                        </td>
+                        <td class="image"><img src=@post.Image></td>
+                        <td class="title">@post.Title</td>
+                        <td class="description">@post.Description</td>
+                    </tr>
                 }
                 </tbody>
         </table>
@@ -41,7 +41,8 @@
     {
       <h2>Non ci sono post da mostrare</h2>  
     }
-    
+
+    <a class="btn btn-primary" href="@Url.Action("Create", "Posts")">Nuovo post</a>
    
     </div>
     

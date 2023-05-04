@@ -52,6 +52,38 @@ namespace NetCore_01.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult Create()           //visualizza la vista di inserimento Post
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Post data)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(data);
+            }
+
+            using (PostContext context = new PostContext())
+            {
+                Post postToCreate = new Post();
+                postToCreate.Title = data.Title;
+                postToCreate.Category = data.Category;
+                postToCreate.Description = data.Description;
+                postToCreate.Image = data.Image;
+
+                context.posts.Add(postToCreate);
+
+                context.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

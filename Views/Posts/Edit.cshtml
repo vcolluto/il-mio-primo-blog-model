@@ -1,5 +1,7 @@
 ﻿@model Post
-
+@{
+    List<string> elencoCategorie = ViewData["elencoCategorie"] as List<string>;
+}
 
 
 <div class="container">
@@ -17,7 +19,7 @@
         </div>
         <div class="mb-3">
             <strong>Categoria:</strong>
-            <input asp-for="Category" class="d-block w-100" />
+            <select asp-for="Category" class="d-block w-100" asp-items="@(new SelectList(elencoCategorie))" ></select>
             <span asp-validation-for="Category" class="text-danger"></span>
         </div>
         <div class="mb-3">

@@ -95,7 +95,12 @@ namespace NetCore_01.Controllers
                     // return NotFound($"Il post {postId} non esiste!");
                     return View("NotFound", Id);    //vista NotFound.cshtml
                 else
+                {
+                    List<string> elencoCategorie = new List<string>() { "Informazioni", "Saluti", "Generico" };
+                    ViewData["elencoCategorie"]=elencoCategorie;
                     return View(post);  //vista Edit.cshtml
+                }
+                   
             }
         }
 

@@ -1,7 +1,12 @@
+using NetCore_01;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+//il framework creerà un'istanza di CustomConsoleLogger alle classi che richiedono una dipendenza di tipo ICustomLogger
+builder.Services.AddScoped<ICustomLogger, CustomConsoleLogger>();
 
 builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();

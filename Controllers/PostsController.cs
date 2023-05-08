@@ -10,11 +10,13 @@ namespace NetCore_01.Controllers
     //richieste /Posts/*
     public class PostsController : Controller
     {
-        private readonly ILogger<PostsController> _logger;
+        //private readonly ILogger<PostsController> _logger;
+        private ICustomLogger _logger;
 
-        public PostsController(ILogger<PostsController> logger)
+        public PostsController(ICustomLogger logger)        //mi viene passata da qualcuno
         {
-            _logger = logger;
+            // _logger = logger;
+            _logger =logger;        //non faccio la new
         }
 
 
@@ -22,6 +24,7 @@ namespace NetCore_01.Controllers
         [HttpGet]
         public IActionResult Index(string? category, string? message)
         {
+            _logger.WriteLog( "************************* Index - start *********************");
             using (PostContext postContext = new PostContext())
             {
                 if (message!=null)
@@ -31,6 +34,7 @@ namespace NetCore_01.Controllers
                      posts = postContext.posts.ToList<Post>();
                 else
                      posts = postContext.posts.Where(post => post.Category == category).ToList<Post>();
+                _logger.WriteLog("************************* Index - end *********************");
                 return View(posts);
             }
         }

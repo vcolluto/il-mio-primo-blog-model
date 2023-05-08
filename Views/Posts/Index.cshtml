@@ -38,12 +38,12 @@
                         <td class="image"><img src=@post.Image></td>
                         <td class="title">@post.Title</td>
                         <td class="description">@post.Description</td>
-                        <td><a class="btn btn-primary" href="@Url.Action("Edit", "Posts", new {Id=@post.Id})">Modifica</a></td>
+                            <td><a class="btn btn-primary" href="@Url.Action("Edit", "Posts", new {Id=@post.Id})"><i class="fa-solid fa-pen-to-square"></i></a></td>
                         <td>
                                 <form asp-controller="Posts" asp-action="Delete" asp-route-id="@post.Id" method="post">
                                 @Html.AntiForgeryToken()
-                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('sei sicuro?')">
-                                        CANCELLA
+                                    <button type="submit" class="btn btn-danger" onclick="return confirm('sei sicuro?')">
+                                        <i class="fa-solid fa-trash"></i>
                                     </button>
                                 </form>
                         </td>

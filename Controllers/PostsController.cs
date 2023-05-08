@@ -20,15 +20,17 @@ namespace NetCore_01.Controllers
 
 
         [HttpGet]
-        public IActionResult Index(string? category)
+        public IActionResult Index(string? category, string? message)
         {
             using (PostContext postContext = new PostContext())
             {
+                if (message!=null)
+                    ViewData["message"]=message;
                 List<Post> posts;
                 if (category == null)
                      posts = postContext.posts.ToList<Post>();
                 else
-                    posts = postContext.posts.Where(post => post.Category == category).ToList<Post>();
+                     posts = postContext.posts.Where(post => post.Category == category).ToList<Post>();
                 return View(posts);
             }
         }
@@ -80,7 +82,7 @@ namespace NetCore_01.Controllers
 
                 context.SaveChanges();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { message = "Post inserito correttamente" });
             }
         }
 
@@ -111,6 +113,8 @@ namespace NetCore_01.Controllers
         {
             if (!ModelState.IsValid)
             {
+                List<string> elencoCategorie = new List<string>() { "Informazioni", "Saluti", "Generico" };
+                ViewData["elencoCategorie"] = elencoCategorie;
                 return View(data);
             }
 
@@ -124,7 +128,31 @@ namespace NetCore_01.Controllers
 
                 context.SaveChanges();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { message = "Post aggiornato correttamente" });
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id)
+        {
+            using (PostContext context = new PostContext())
+            {
+                Post? postToDelete = context.posts.Where(post => post.Id == id).FirstOrDefault();
+
+                if (postToDelete != null)
+                {
+                    context.posts.Remove(postToDelete);
+
+                    context.SaveChanges();
+                   
+
+                    return RedirectToAction("Index",new { message= "Post eliminato correttamente" });
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
         }
 

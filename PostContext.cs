@@ -8,9 +8,7 @@ namespace NetCore_01
     {
         public DbSet<Post> posts { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=Blog;Integrated Security=True;TrustServerCertificate=true").LogTo(s=>Debug.WriteLine(s));
-        }
+        public PostContext(DbContextOptions<PostContext> dbContextOptions) : base(dbContextOptions) { }
+
     }
 }

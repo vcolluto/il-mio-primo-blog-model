@@ -12,11 +12,13 @@ namespace NetCore_01.Controllers
     {
         //private readonly ILogger<PostsController> _logger;
         private ICustomLogger _logger;
+        private PostContext _dbContext;
 
-        public PostsController(ICustomLogger logger)        //mi viene passata da qualcuno (il framework)
+        public PostsController(ICustomLogger logger, PostContext dbContext)        //mi viene passata da qualcuno (il framework)
         {
             // _logger = logger;
-            _logger =logger;        //non faccio la new
+            _logger = logger;        //non faccio la new
+            _dbContext = dbContext; //non faccio la new
         }
 
 
@@ -25,18 +27,17 @@ namespace NetCore_01.Controllers
         public IActionResult Index(string? category, string? message)
         {
             _logger.WriteLog( "************************* Index - start *********************");
-            using (PostContext postContext = new PostContext())
-            {
+            
                 if (message!=null)
                     ViewData["message"]=message;
                 List<Post> posts;
                 if (category == null)
-                     posts = postContext.posts.ToList<Post>();
+                     posts = _dbContext.posts.ToList<Post>();
                 else
-                     posts = postContext.posts.Where(post => post.Category == category).ToList<Post>();
+                     posts = _dbContext.posts.Where(post => post.Category == category).ToList<Post>();
                 _logger.WriteLog("************************* Index - end *********************");
                 return View(posts);
-            }
+            
         }
 
     
@@ -46,16 +47,15 @@ namespace NetCore_01.Controllers
         // gestisce richieste del tipo /Posts/Detail?Id=<id>
         public IActionResult Detail(int Id)
         {
-            using (PostContext postContext = new PostContext())
-            {
+            
 
-                Post post = postContext.posts.First(p => p.Id == Id);
+                Post post = _dbContext.posts.First(p => p.Id == Id);
                 if (post == null)
                     // return NotFound($"Il post {postId} non esiste!");
                     return View("NotFound", Id);    //vista NotFound.cshtml
                 else
                     return View(post);  //vista Detail.cshtml
-            }
+            
         }
 
         [HttpGet]
@@ -74,40 +74,39 @@ namespace NetCore_01.Controllers
                 return View(data);
             }
 
-            using (PostContext context = new PostContext())
-            {
-                Post postToCreate = new Post();
-                postToCreate.Title = data.Title;
-                postToCreate.Category = data.Category;
-                postToCreate.Description = data.Description;
-                postToCreate.Image = data.Image;
+            
+           
+            Post postToCreate = new Post();
+            postToCreate.Title = data.Title;
+            postToCreate.Category = data.Category;
+            postToCreate.Description = data.Description;
+            postToCreate.Image = data.Image;
 
-                context.posts.Add(postToCreate);
+            _dbContext.posts.Add(postToCreate);
 
-                context.SaveChanges();
+            _dbContext.SaveChanges();
 
-                return RedirectToAction("Index", new { message = "Post inserito correttamente" });
-            }
+            return RedirectToAction("Index", new { message = "Post inserito correttamente" });
+            
         }
 
         [HttpGet]
         public IActionResult Edit(int Id)           //visualizza la vista di inserimento Post
         {
-            using (PostContext postContext = new PostContext())
-            {
+           
 
-                Post? post = postContext.posts.FirstOrDefault(p => p.Id == Id);
-                if (post == null)
-                    // return NotFound($"Il post {postId} non esiste!");
-                    return View("NotFound", Id);    //vista NotFound.cshtml
-                else
-                {
-                    List<string> elencoCategorie = new List<string>() { "Informazioni", "Saluti", "Generico" };
-                    ViewData["elencoCategorie"]=elencoCategorie;
-                    return View(post);  //vista Edit.cshtml
-                }
-                   
+            Post? post = _dbContext.posts.FirstOrDefault(p => p.Id == Id);
+            if (post == null)
+                // return NotFound($"Il post {postId} non esiste!");
+                return View("NotFound", Id);    //vista NotFound.cshtml
+            else
+            {
+                List<string> elencoCategorie = new List<string>() { "Informazioni", "Saluti", "Generico" };
+                ViewData["elencoCategorie"]=elencoCategorie;
+                return View(post);  //vista Edit.cshtml
             }
+                   
+            
         }
 
 
@@ -122,33 +121,31 @@ namespace NetCore_01.Controllers
                 return View(data);
             }
 
-            using (PostContext context = new PostContext())
-            {
-                Post postToEdit = context.posts.First(p => p.Id == data.Id);
-                postToEdit.Title = data.Title;
-                postToEdit.Category = data.Category;
-                postToEdit.Description = data.Description;
-                postToEdit.Image = data.Image;
+            
+            Post postToEdit = _dbContext.posts.First(p => p.Id == data.Id);
+            postToEdit.Title = data.Title;
+            postToEdit.Category = data.Category;
+            postToEdit.Description = data.Description;
+            postToEdit.Image = data.Image;
 
-                context.SaveChanges();
+            _dbContext.SaveChanges();
 
-                return RedirectToAction("Index", new { message = "Post aggiornato correttamente" });
-            }
+            return RedirectToAction("Index", new { message = "Post aggiornato correttamente" });
+            
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)
         {
-            using (PostContext context = new PostContext())
-            {
-                Post? postToDelete = context.posts.Where(post => post.Id == id).FirstOrDefault();
+            
+                Post? postToDelete = _dbContext.posts.Where(post => post.Id == id).FirstOrDefault();
 
                 if (postToDelete != null)
                 {
-                    context.posts.Remove(postToDelete);
+                    _dbContext.posts.Remove(postToDelete);
 
-                    context.SaveChanges();
+                    _dbContext.SaveChanges();
                    
 
                     return RedirectToAction("Index",new { message= "Post eliminato correttamente" });
@@ -157,7 +154,7 @@ namespace NetCore_01.Controllers
                 {
                     return NotFound();
                 }
-            }
+            
         }
 
 

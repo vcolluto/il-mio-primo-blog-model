@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using NetCore_01;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +8,11 @@ builder.Services.AddControllersWithViews();
 
 //il framework creerà un'istanza di CustomConsoleLogger alle classi che richiedono una dipendenza di tipo ICustomLogger
 builder.Services.AddScoped<ICustomLogger, CustomConsoleLogger>();
+
+builder.Services.AddDbContext<PostContext>(
+    options => options.UseSqlServer(
+        "Data Source=localhost;Initial Catalog=Blog;Integrated Security=True;TrustServerCertificate=true")
+    );
 
 builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();

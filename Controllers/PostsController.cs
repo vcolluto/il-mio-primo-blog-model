@@ -13,7 +13,7 @@ namespace NetCore_01.Controllers
         //private readonly ILogger<PostsController> _logger;
         private ICustomLogger _logger;
 
-        public PostsController(ICustomLogger logger)        //mi viene passata da qualcuno
+        public PostsController(ICustomLogger logger)        //mi viene passata da qualcuno (il framework)
         {
             // _logger = logger;
             _logger =logger;        //non faccio la new

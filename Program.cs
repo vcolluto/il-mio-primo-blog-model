@@ -10,8 +10,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<ICustomLogger, CustomConsoleLogger>();
 
 builder.Services.AddDbContext<PostContext>(
-    options => options.UseSqlServer(
-        "Data Source=localhost;Initial Catalog=Blog;Integrated Security=True;TrustServerCertificate=true")
+    options => options.UseSqlServer( builder.Configuration.GetConnectionString("BlogConnection")
+       )
     );
 
 builder.Services.AddRazorPages()

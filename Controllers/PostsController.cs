@@ -49,7 +49,7 @@ namespace NetCore_01.Controllers
         {
             
 
-                Post post = _dbContext.posts.First(p => p.Id == Id);
+                Post? post = _dbContext.posts.Where(p => p.Id == Id).Include(p => p.Category).FirstOrDefault();
                 if (post == null)
                     // return NotFound($"Il post {postId} non esiste!");
                     return View("NotFound", Id);    //vista NotFound.cshtml
@@ -103,14 +103,21 @@ namespace NetCore_01.Controllers
            
 
             Post? post = _dbContext.posts.FirstOrDefault(p => p.Id == Id);
+
             if (post == null)
+
                 // return NotFound($"Il post {postId} non esiste!");
                 return View("NotFound", Id);    //vista NotFound.cshtml
             else
             {
-                List<string> elencoCategorie = new List<string>() { "Informazioni", "Saluti", "Generico" };
-                ViewData["elencoCategorie"]=elencoCategorie;
-                return View(post);  //vista Edit.cshtml
+                List<Category> categories = _dbContext.categories.ToList();
+
+                PostFormModel postFormModel = new PostFormModel();
+
+                postFormModel.Post = post;
+                postFormModel.Categories = categories;
+
+                return View(postFormModel);  //vista Edit.cshtml
             }
                    
             
@@ -119,21 +126,21 @@ namespace NetCore_01.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Post data)
+        public IActionResult Edit(PostFormModel data)
         {
             if (!ModelState.IsValid)
             {
-                List<string> elencoCategorie = new List<string>() { "Informazioni", "Saluti", "Generico" };
-                ViewData["elencoCategorie"] = elencoCategorie;
+                List<Category> categories = _dbContext.categories.ToList();
+                data.Categories = categories;
                 return View(data);
-            }
-
+            }    
             
-            Post postToEdit = _dbContext.posts.First(p => p.Id == data.Id);
-            postToEdit.Title = data.Title;
-         //   postToEdit.Category = data.Category;
-            postToEdit.Description = data.Description;
-            postToEdit.Image = data.Image;
+
+            Post postToEdit = _dbContext.posts.First(p => p.Id == data.Post.Id);
+            postToEdit.Title = data.Post.Title;
+            postToEdit.CategoryId = data.Post.CategoryId;
+            postToEdit.Description = data.Post.Description;
+            postToEdit.Image = data.Post.Image;
 
             _dbContext.SaveChanges();
 

@@ -1,32 +1,30 @@
-﻿@model Post
-@{
-    List<string> elencoCategorie = ViewData["elencoCategorie"] as List<string>;
-    
-}
-
+﻿@model PostFormModel
 
 <div class="container">
     <form asp-controller="Posts" asp-action="Edit" method="post">
         @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="Post.Id" />
         <div class="mb-3">
             <strong>Titolo:</strong>
-            <input asp-for="Title" class="d-block w-100" />
-            <span asp-validation-for="Title" class="text-danger"></span>
+            <input asp-for="Post.Title" class="d-block w-100" />
+            <span asp-validation-for="Post.Title" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <strong>Descrizione:</strong>
-            <textarea rows="10" asp-for="Description" class="d-block w-100"></textarea>
-            <span asp-validation-for="Description" class="text-danger"></span>
+            <textarea rows="10" asp-for="Post.Description" class="d-block w-100"></textarea>
+            <span asp-validation-for="Post.Description" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <strong>Categoria:</strong>
-            <!--select asp-for="Category" class="d-block w-100" asp-items="@(new SelectList(elencoCategorie))" ></!--select>
-            <span-- asp-validation-for="Category" class="text-danger"></span-->
+            <select asp-for="Post.CategoryId" class="d-block w-100" asp-items="@(new SelectList(Model.Categories,"Id","Name"))">
+                <option value=""></option>
+            </select>
+            <span asp-validation-for="Post.CategoryId" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <strong>Immagine:</strong>
-            <input asp-for="Image" class="d-block w-100" />
-            <span asp-validation-for="Image" class="text-danger"></span>
+            <input asp-for="Post.Image" class="d-block w-100" />
+            <span asp-validation-for="Post.Image" class="text-danger"></span>
         </div>
         <div class="text-end">
             <input type="submit" class="btn btn-small btn-info" value="Salva">

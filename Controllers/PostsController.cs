@@ -31,10 +31,10 @@ namespace NetCore_01.Controllers
                 if (message!=null)
                     ViewData["message"]=message;
                 List<Post> posts;
-                if (category == null)
+            //    if (category == null)
                      posts = _dbContext.posts.ToList<Post>();
-                else
-                     posts = _dbContext.posts.Where(post => post.Category == category).ToList<Post>();
+          //      else
+        //             posts = _dbContext.posts.Where(post => post.Category == category).ToList<Post>();
                 _logger.WriteLog("************************* Index - end *********************");
                 return View(posts);
             
@@ -61,26 +61,33 @@ namespace NetCore_01.Controllers
         [HttpGet]
         public IActionResult Create()           //visualizza la vista di inserimento Post
         {
-            return View();
+            List<Category> categories = _dbContext.categories.ToList();
+            PostFormModel model = new PostFormModel();
+            model.Post = new Post();
+            model.Categories = categories;
+
+            return View(model);
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Post data)
+        public IActionResult Create(PostFormModel data)
         {
             if (!ModelState.IsValid)
             {
+                List<Category> categories = _dbContext.categories.ToList();
+                data.Categories = categories;
                 return View(data);
             }
 
             
            
             Post postToCreate = new Post();
-            postToCreate.Title = data.Title;
-            postToCreate.Category = data.Category;
-            postToCreate.Description = data.Description;
-            postToCreate.Image = data.Image;
+            postToCreate.Title = data.Post.Title;
+            postToCreate.CategoryId = data.Post.CategoryId;
+            postToCreate.Description = data.Post.Description;
+            postToCreate.Image = data.Post.Image;
 
             _dbContext.posts.Add(postToCreate);
 
@@ -124,7 +131,7 @@ namespace NetCore_01.Controllers
             
             Post postToEdit = _dbContext.posts.First(p => p.Id == data.Id);
             postToEdit.Title = data.Title;
-            postToEdit.Category = data.Category;
+         //   postToEdit.Category = data.Category;
             postToEdit.Description = data.Description;
             postToEdit.Image = data.Image;
 

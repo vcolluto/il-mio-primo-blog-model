@@ -8,6 +8,8 @@ namespace NetCore_01
     {
         public DbSet<Post> posts { get; set; }
 
+        public DbSet<Category> categories { get; set; }
+
         public PostContext(DbContextOptions<PostContext> dbContextOptions) : base(dbContextOptions) { }
 
     }

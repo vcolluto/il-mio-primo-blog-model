@@ -21,6 +21,28 @@
             </select>
             <span asp-validation-for="Post.CategoryId" class="text-danger"></span>
         </div>
+        <!--
+            <div class="mb-3">
+            <strong>Tags:</strong>
+            <select asp-for="SelectedTags"
+                    multiple="multiple"
+                    size="10"
+                    class="form-control mb-2 mr-sm-2 ml-sm-3 leftList"
+                    asp-items="@(new SelectList(Model.Tags, "Id", "Title"))">
+            </select>
+        </div>
+        -->
+
+        <div class="mb-3">
+            <strong>Tags:</strong>
+            @foreach (Tag tag in Model.Tags)
+            {
+                <div>
+                    <input value="@tag.Id" id="@tag.Id" name="SelectedTags" checked="@Model.SelectedTags.Contains(tag.Id.ToString())" type="checkbox">
+                    <label for="@tag.Id">@tag.Title</label>
+                </div>
+            }
+        </div>
         <div class="mb-3">
             <strong>Immagine:</strong>
             <input asp-for="Post.Image" class="d-block w-100" />

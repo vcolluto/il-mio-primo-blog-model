@@ -56,8 +56,11 @@
     {
       <h2>Non ci sono post da mostrare</h2>  
     }
-
-    <a class="btn btn-primary" href="@Url.Action("Create", "Posts")">Nuovo post</a>
+    @if (User.IsInRole("ADMIN"))
+    {
+        <a class="btn btn-primary" href="@Url.Action("Create", "Posts")">Nuovo post</a>
+    }
+    
    
     </div>
     

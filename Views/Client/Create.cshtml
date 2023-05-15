@@ -1,0 +1,32 @@
+﻿<div class="container">
+   
+        <div class="mb-3">
+            <strong>Titolo:</strong>
+            <input id="title" class="d-block w-100" />
+            <span id="title_validation" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <strong>Descrizione:</strong>
+            <textarea rows="10" id="description" class="d-block w-100"></textarea>
+            <span id="description_validation" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <strong>Categoria:</strong>
+            <select id="category" rows="10" class="d-block w-100">               
+            </select>
+        </div>
+        <div class="mb-3">
+            <strong>Immagine:</strong>
+            <input id="image" class="d-block w-100" />
+            <span id="image_validation" class="text-danger"></span>
+        </div>
+        <div class="text-end">
+            <input type="button" class="btn btn-small btn-info" value="Salva" onclick="creaPost()">
+        </div>
+
+</div>
+
+
+@section Scripts {
+    <script type="text/javascript" src="~/js/API/create.js"></script>
+}

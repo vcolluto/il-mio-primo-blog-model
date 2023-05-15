@@ -2,3 +2,9 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+
+
+function test() {
+    for (i = 1; i < 5; i++)
+        alert('ciao');
+}

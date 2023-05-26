@@ -45,7 +45,10 @@
         </div>
         <div class="mb-3">
             <strong>Immagine:</strong>
-            <input asp-for="Post.Image" class="d-block w-100" />
+            <img src="@Model.Post.Image" />
+            <div>
+                <input type="file" asp-for="@Model.ImageFile" accept="image/*" />
+            </div>
             <span asp-validation-for="Post.Image" class="text-danger"></span>
         </div>
         <div class="text-end">

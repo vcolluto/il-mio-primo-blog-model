@@ -1,5 +1,17 @@
 ﻿@{
     ViewData["Title"] = "Home page";
 }
+@using NetCore_01.Components;
+
+@using Microsoft.AspNetCore.Components.Web; 
+
+
 
 <h1>Il mio blog</h1>
+
+@await(
+    Html.RenderComponentAsync<MioComponente>(RenderMode.Static, new { Value = "Prova" })
+)
+
+
+Componente Value="Hello World!" />

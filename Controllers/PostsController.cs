@@ -206,13 +206,14 @@ namespace NetCore_01.Controllers
            
             if (data.SelectedTags != null)      //ripopolo l'insieme dei tag associati in base all'elenco di id che mi restituisce la View
             {
-                foreach (string selectedBookId in data.SelectedTags)       //data.SelectedTags contiene gli id dei tag scelti dall'utente
+                foreach (string selectedTagId in data.SelectedTags)       //data.SelectedTags contiene gli id dei tag scelti dall'utente
                 {
-                    int selectedIntBookId = int.Parse(selectedBookId);      //per ogni id selezionato recupero il corrispettivo oggetto Tag
+                    int selectedIntTagId = int.Parse(selectedTagId);      //per ogni id selezionato recupero il corrispettivo oggetto Tag
                     Tag? tag = _dbContext.tags
-                                .Where(t => t.Id == selectedIntBookId)
+                                .Where(t => t.Id == selectedIntTagId)
                                 .FirstOrDefault();
-                    postToEdit.Tags.Add(tag);
+                    if (tag!=null)
+                        postToEdit.Tags.Add(tag);
                 }
             }
 

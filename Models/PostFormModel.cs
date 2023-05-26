@@ -9,5 +9,7 @@ namespace NetCore_01.Models
 
         public List<Tag>? Tags { get; set; }        //tutti i tag dai quali posso scegliere
         public List<string>? SelectedTags { get; set; }        //gli id dei tag effettivamente scelti (associati al post)
+
+        public IFormFile? ImageFile { get; set; }   
     }
 }
